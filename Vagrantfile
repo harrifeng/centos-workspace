@@ -4,10 +4,11 @@ Vagrant.configure("2") do |config|
   config.vm.define "#{hostname}" do |app|
     app.vm.provider "virtualbox" do |vb|
       vb.gui = false
-      vb.memory = "8192"
-      vb.cpus = 4
+      vb.memory = "4096"
+      vb.cpus = 2
     end
     app.vm.hostname = "#{hostname}"
+    app.vm.network "forwarded_port", guest: 5000, host: 5000
     app.vm.box = "bento/centos-7.3"
     app.vm.box_check_update = false
     app.ssh.insert_key = false
