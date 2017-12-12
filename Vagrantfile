@@ -8,7 +8,6 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
     end
     app.vm.hostname = "#{hostname}"
-    app.vm.network "forwarded_port", guest: 5000, host: 5000
     app.vm.box = "bento/centos-7.3"
     app.vm.box_check_update = false
     app.ssh.insert_key = false
