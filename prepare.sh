@@ -24,14 +24,21 @@ do
   ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
 done
 
-chown -R vagrant:vagrant /home/vagrant/github
+DOT_FILES='/home/vagrant/github/binary'
+
+if [ ! -d "$DOT_FILES" ]; then
+    git clone https://github.com/harrifeng/dotfiles.git ${DOT_FILES}
+fi
+ln -sf /home/vagrant/github/dotfiles/bash/dot_bashrc /home/vagrant/.bashrc
+ln -sf /home/vagrant/github/dotfiles/tmux/dot_tmux.conf /home/vagrant/.tmux.conf
+
 
 UTIL_BINARY='/home/vagrant/github/binary'
 
 if [ ! -d "$UTIL_BINARY" ]; then
     git clone https://github.com/harrifeng/binary.git ${UTIL_BINARY}
 fi
-ln -sf /home/vagrant/.cow /home/vagrant/github/binary/amd64/dot-cow
+ln -sf /home/vagrant/github/binary/amd64/dot-cow /home/vagrant/.cow
 
 
 echo "
@@ -50,4 +57,6 @@ RestartSec=10s
 sudo systemctl daemon-reload
 sudo systemctl enable cow.service
 sudo systemctl start cow.service
+
+chown -R vagrant:vagrant /home/vagrant/github
 echo "<----------finishing provision--------------->"
