@@ -24,6 +24,14 @@ do
   ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
 done
 
+VIRTUAL_3ENV='/home/vagrant/venv/3ENV'
+
+if [ ! -d "$VIRTUAL_3ENV" ]; then
+    virtualenv -p /usr/local/python3/bin/python3 $VIRTUAL_3ENV
+    ${VIRTUAL_3ENV}/bin/pip -U pip rope flake8 importmagic autopep8 yapf -i http://mirrors.aliyun.com/pypi/simple --trusted-host=mirrors.aliyun.com
+fi
+
+
 DOT_FILES='/home/vagrant/github/dotfiles'
 
 if [ ! -d "$DOT_FILES" ]; then
