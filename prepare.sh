@@ -8,7 +8,7 @@ mkdir -p /home/vagrant/github
 ANSIBLE_UTIL='/home/vagrant/github/ansible-playground'
 
 if [ ! -d "$ANSIBLE_UTIL" ]; then
-    git clone https://github.com/harrifeng/ansible-playground.git /home/vagrant/github/ansible-playground
+    git clone https://github.com/harrifeng/ansible-playground.git ${ANSIBLE_UTIL}
 fi
 
 declare -a arr=(00-install-common 03-install-docker-on-centos 04-install-new-git-on-centos \
@@ -16,7 +16,8 @@ declare -a arr=(00-install-common 03-install-docker-on-centos 04-install-new-git
                                   06-install-supervisord-and-configure-systemd-on-centos \
                                   07-install-nodejs-on-centos \
                                   08-install-python3-on-centos \
-                                  10-install-shellcheck-on-centos)
+                                  10-install-shellcheck-on-centos \
+                                  12-install-golang-1-9-on-centos)
 
 for dir in "${arr[@]}"
 do
@@ -24,4 +25,27 @@ do
 done
 
 chown -R vagrant:vagrant /home/vagrant/github
+
+UTIL_BINARY='/home/vagrant/github/ansible-playground'
+
+if [ ! -d "$UTIL_BINARY" ]; then
+    git clone https://github.com/harrifeng/ansible-playground.git ${UTIL_BINARY}
+fi
+
+
+echo "
+[Unit]
+Description=Cow Proxy Daemon
+
+[Service]
+User=vagrant
+Group=vagrant
+RuntimeDirectory=cow
+Type=simple
+ExecStart=/home/vagrant/.cow/cow
+Restart=on-failure
+RestartSec=10s
+" | sudo tee /usr/lib/systemd/system/cow.service
+sudo systemctl enable cow.service
+sudo systemctl start cow.service
 echo "<----------finishing provision--------------->"
