@@ -26,11 +26,12 @@ done
 
 chown -R vagrant:vagrant /home/vagrant/github
 
-UTIL_BINARY='/home/vagrant/github/ansible-playground'
+UTIL_BINARY='/home/vagrant/github/binary'
 
 if [ ! -d "$UTIL_BINARY" ]; then
-    git clone https://github.com/harrifeng/ansible-playground.git ${UTIL_BINARY}
+    git clone https://github.com/harrifeng/binary.git ${UTIL_BINARY}
 fi
+ln -sf /home/vagrant/.cow /home/vagrant/github/binary/amd64/dot-cow
 
 
 echo "
@@ -46,6 +47,7 @@ ExecStart=/home/vagrant/.cow/cow
 Restart=on-failure
 RestartSec=10s
 " | sudo tee /usr/lib/systemd/system/cow.service
+sudo systemctl daemon-reload
 sudo systemctl enable cow.service
 sudo systemctl start cow.service
 echo "<----------finishing provision--------------->"
