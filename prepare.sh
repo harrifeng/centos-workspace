@@ -24,7 +24,7 @@ do
   ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
 done
 
-DOT_FILES='/home/vagrant/github/binary'
+DOT_FILES='/home/vagrant/github/dotfiles'
 
 if [ ! -d "$DOT_FILES" ]; then
     git clone https://github.com/harrifeng/dotfiles.git ${DOT_FILES}
