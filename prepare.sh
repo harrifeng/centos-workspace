@@ -11,5 +11,16 @@ if [ ! -d "$ANSIBLE_UTIL" ]; then
     git clone https://github.com/harrifeng/ansible-playground.git /home/vagrant/github/ansible-playground
 fi
 
-ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/00-install-common/common.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
+declare -a arr=(00-install-common 03-install-docker-on-centos 04-install-new-git-on-centos \
+                                  05-install-new-emacs-on-centos \
+                                  06-install-supervisord-and-configure-systemd-on-centos \
+                                  07-install-nodejs-on-centos \
+                                  08-install-python3-on-centos \
+                                  10-install-shellcheck-on-centos)
+
+for dir in "${arr[@]}"
+do
+  ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
+done
+
 echo "<----------finishing provision--------------->"
