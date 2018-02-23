@@ -1,3 +1,3 @@
-cd c:/Users/hfeng/github/centos-workspace
+cd ..
 vagrant reload
 pause
