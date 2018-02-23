@@ -23,4 +23,5 @@ do
   ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
 done
 
+chown -R vagrant:vagrant /home/vagrant/github
 echo "<----------finishing provision--------------->"
