@@ -4,9 +4,9 @@ sudo pip install -U pip -i http://mirrors.aliyun.com/pypi/simple --trusted-host=
 sudo pip install ansible virtualenv -i http://mirrors.aliyun.com/pypi/simple --trusted-host=mirrors.aliyun.com
 
 echo "DNS1=8.8.8.8" | sudo tee -a /etc/sysconfig/network-scripts/ifcfg-enp0s3
-mkdir -p /home/vagrant/github
-mkdir -p /home/vagrant/venv
-ANSIBLE_UTIL='/home/vagrant/github/ansible-playground'
+mkdir -p /home/hfeng/github
+mkdir -p /home/hfeng/venv
+ANSIBLE_UTIL='/home/hfeng/github/ansible-playground'
 
 if [ ! -d "$ANSIBLE_UTIL" ]; then
     git clone https://github.com/harrifeng/ansible-playground.git ${ANSIBLE_UTIL}
@@ -22,10 +22,10 @@ declare -a arr=(00-install-common 03-install-docker-on-centos 04-install-new-git
 
 for dir in "${arr[@]}"
 do
-  ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=vagrant"
+  ansible-playbook -i ${ANSIBLE_UTIL}/etc_ansible_hosts ${ANSIBLE_UTIL}/${dir}/main.yml --extra-vars "variable_host=localhost ansible_become_pass=hfeng"
 done
 
-VIRTUAL_3ENV='/home/vagrant/venv/3ENV'
+VIRTUAL_3ENV='/home/hfeng/venv/3ENV'
 
 if [ ! -d "$VIRTUAL_3ENV" ]; then
     virtualenv -p /usr/local/python3/bin/python3 $VIRTUAL_3ENV
@@ -33,31 +33,31 @@ if [ ! -d "$VIRTUAL_3ENV" ]; then
 fi
 
 
-DOT_FILES='/home/vagrant/github/dotfiles'
+DOT_FILES='/home/hfeng/github/dotfiles'
 
 if [ ! -d "$DOT_FILES" ]; then
     git clone https://github.com/harrifeng/dotfiles.git ${DOT_FILES}
-    ln -sf /home/vagrant/github/dotfiles/bash/dot_bashrc /home/vagrant/.bashrc
-    ln -sf /home/vagrant/github/dotfiles/tmux/dot_tmux.conf /home/vagrant/.tmux.conf
+    ln -sf /home/hfeng/github/dotfiles/bash/dot_bashrc /home/hfeng/.bashrc
+    ln -sf /home/hfeng/github/dotfiles/tmux/dot_tmux.conf /home/hfeng/.tmux.conf
 fi
 
 
-UTIL_BINARY='/home/vagrant/github/binary'
+UTIL_BINARY='/home/hfeng/github/binary'
 
 if [ ! -d "$UTIL_BINARY" ]; then
     git clone https://github.com/harrifeng/binary.git ${UTIL_BINARY}
-    ln -sf /home/vagrant/github/binary/amd64/dot-cow /home/vagrant/.cow
+    ln -sf /home/hfeng/github/binary/amd64/dot-cow /home/hfeng/.cow
 
     echo "
     [Unit]
     Description=Cow Proxy Daemon
 
     [Service]
-    User=vagrant
-    Group=vagrant
+    User=hfeng
+    Group=hfeng
     RuntimeDirectory=cow
     Type=simple
-    ExecStart=/home/vagrant/.cow/cow
+    ExecStart=/home/hfeng/.cow/cow
     Restart=on-failure
     RestartSec=10s
     " | sudo tee /usr/lib/systemd/system/cow.service
@@ -66,6 +66,6 @@ if [ ! -d "$UTIL_BINARY" ]; then
     sudo systemctl start cow.service
 fi
 
-chown -R vagrant:vagrant /home/vagrant/github
-chown -R vagrant:vagrant /home/vagrant/venv
+chown -R hfeng:hfeng /home/hfeng/github
+chown -R hfeng:hfeng /home/hfeng/venv
 echo "<----------finishing provision--------------->"
