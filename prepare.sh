@@ -5,6 +5,7 @@ sudo pip install ansible virtualenv -i http://mirrors.aliyun.com/pypi/simple --t
 
 echo "DNS1=8.8.8.8" | sudo tee -a /etc/sysconfig/network-scripts/ifcfg-enp0s3
 mkdir -p /home/vagrant/github
+mkdir -p /home/vagrant/venv
 ANSIBLE_UTIL='/home/vagrant/github/ansible-playground'
 
 if [ ! -d "$ANSIBLE_UTIL" ]; then
