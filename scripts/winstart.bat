@@ -1,3 +1,2 @@
 cd ..
-vagrant reload
-pause
+vagrant up
