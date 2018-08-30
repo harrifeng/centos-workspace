@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
     app.vm.provider "virtualbox" do |vb|
       vb.gui = false
       vb.memory = "4096"
-      vb.cpus = 1
+      vb.cpus = 2
     end
     app.vm.hostname = "#{hostname}"
     app.vm.box = "bento/centos-7.3"
